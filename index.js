@@ -462,5 +462,29 @@ app.post('/webhooks/tradingview', async (req, res) => {
   res.json({ success: true });
 });
 
+app.get('/api/ticker/:exchange/:asset', async (req, res) => {
+  try {
+    const { exchange, asset } = req.params;
+    
+    const { data: account } = await supabase
+      .from('accounts')
+      .select('*')
+      .eq('exchange', exchange)
+      .limit(1)
+      .single();
+    
+    if (!account) {
+      const ex = createExchange(exchange, '', '', '');
+      const ticker = await ex.fetchTicker(asset);
+      return res.json({ price: ticker.last });
+    }
+    
+    const ex = createExchange(exchange, account.api_key, account.api_secret, account.passphrase);
+    const ticker = await ex.fetchTicker(asset);
+    res.json({ price: ticker.last });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`KRAIT Backend running on port ${PORT}`));
