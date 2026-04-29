@@ -1,0 +1,20 @@
+{
+  "name": "crypto-king-krait",
+  "version": "1.0.0",
+  "description": "KRAIT Autonomous Trading System",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.0.0",
+    "axios": "^1.0.0",
+    "ccxt": "^4.0.0",
+    "dotenv": "^16.0.0",
+    "node-telegram-bot-api": "^0.61.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.0"
+  }
+}
